@@ -1,0 +1,1 @@
+#+TITLE: Script to spawn a slave instance of master mpd daemon
