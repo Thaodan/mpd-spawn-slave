@@ -5,7 +5,7 @@ After=network.target sound.target
 
 [Service]
 Type=notify
-ExecStart=/usr/local/bin/mpd-slave-spawn --instance-name %i
+ExecStart=@bindir@/mpd-slave-spawn --instance-name %i
 
 
 # allow MPD to use real-time priority 50
