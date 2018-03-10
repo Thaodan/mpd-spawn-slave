@@ -14,10 +14,12 @@ error()
     echo "$@" >&2
 }
 
-
 case $1 in
     create-instance)
         create_instance=y
+        shift
+        ;;
+    start-instance)
         shift
         ;;
 esac
