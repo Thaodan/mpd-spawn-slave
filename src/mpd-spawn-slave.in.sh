@@ -72,36 +72,36 @@ fi
 
 
 
-mkdir -p $CONFDIR/spawn/ports/stream
-mkdir -p $CONFDIR/spawn/ports/mpd
+mkdir -p "$CONFDIR"/spawn/ports/stream
+mkdir -p "$CONFDIR"/spawn/ports/mpd
 
-mkdir -p $CONFDIR_SLAVES
-mkdir -p $cachedir_slaves
+mkdir -p "$CONFDIR_SLAVES"
+mkdir -p "$cachedir_slaves"
 
 create_instance()
 {
-    if [ -e $CONFDIR_SLAVES/slaves/$instance_name ] ; then
+    if [ -e "$CONFDIR_SLAVES"/slaves/$instance_name ] ; then
         error "instance already exists"
         exit 1
     fi
     
-    if [ -e $CONFDIR/spawn/ports/stream/$http_port ] ; then
+    if [ -e "$CONFDIR"/spawn/ports/stream/$http_port ] ; then
         error "instance whith port $http_port already exists"
         exit 1
     fi
     
-    if [ -e $CONFDIR/spawn/ports/mpd/$mpd_port ] ; then
+    if [ -e "$CONFDIR"/spawn/ports/mpd/$mpd_port ] ; then
         error "instance whith port $mpd_port already exists"
         exit
     fi
 
-    touch $CONFDIR/spawn/ports/mpd/$mpd_port
-    touch $CONFDIR/spawn/ports/stream/$http_port
+    touch "$CONFDIR"/spawn/ports/mpd/$mpd_port
+    touch "$CONFDIR"/spawn/ports/stream/$http_port
     
-    mkdir $CONFDIR_SLAVES/$instance_name
-    cp $baseconfig $CONFDIR_SLAVES/$instance_name/$instance_name.conf
+    mkdir "$CONFDIR_SLAVES"/$instance_name
+    cp "$baseconfig" "$CONFDIR_SLAVES"/$instance_name/$instance_name.conf
     
-    cat >> $CONFDIR_SLAVES/$instance_name/$instance_name.conf<<EOF
+    cat >> "$CONFDIR_SLAVES"/$instance_name/$instance_name.conf<<EOF
 pid_file "$cachedir_slaves/$instance_name/pid"
 state_file "$cachedir_slaves/$instance_name/state"
 log_file "$cachedir_slaves/$instance_name/log"
@@ -109,14 +109,14 @@ port "$mpd_port"
 EOF
 
     sed -e "s|@stream_port@|$http_port|" -i \
-        $CONFDIR_SLAVES/$instance_name/$instance_name.conf
+        "$CONFDIR_SLAVES"/$instance_name/$instance_name.conf
 
-    mkdir -p $cachedir_slaves/$instance_name
+    mkdir -p "$cachedir_slaves"/$instance_name
 }
 
-if [ ! -e $CONFDIR_SLAVES/$instance_name ] ; then
+if [ ! -e "$CONFDIR_SLAVES"/$instance_name ] ; then
     create_instance
 fi
 if [ ! $create_instance ] ; then
-    exec mpd --no-daemon $CONFDIR_SLAVES/$instance_name/$instance_name.conf
+    exec mpd --no-daemon "$CONFDIR_SLAVES"/$instance_name/$instance_name.conf
 fi
