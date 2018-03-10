@@ -13,7 +13,26 @@ error()
 {
     echo "$@" >&2
 }
+display_help()
+{
+    cat <<EOF
+$appname - help
+Commands:
+create-instance - create an instance and do nothing further
+start-instance  - (create) and start instance
+Arguments:
 
+
+All these options modify the spawned mpd instance:
+
+All these options must be only given at creation time
+--base-config   - mpd base config thats used
+--http-port     - port for http stream
+--mpd-port      - port for mpd to listen on
+
+--instance-name - name of the instance
+EOF
+}
 case $1 in
     create-instance)
         create_instance=y
@@ -23,8 +42,8 @@ case $1 in
         shift
         ;;
 esac
-optspec=v # b:dp #-: # short options
-optspec_long=base-config:,http-port:,mpd-port:,instance-name:
+optspec=vh # b:dp #-: # short options
+optspec_long=base-config:,http-port:,mpd-port:,instance-name:,help
 PROCESSED_OPTSPEC=$( getopt -qo $optspec --long $optspec_long \
 		            -n $appname -- "$@" ) || __error error "Wrong option or no parameter for option given!" ||  exit 1
 eval set -- "$PROCESSED_OPTSPEC";
