@@ -18,6 +18,7 @@ error()
 case $1 in
     create-instance)
         create_instance=y
+        shift
         ;;
 esac
 optspec=v # b:dp #-: # short options
