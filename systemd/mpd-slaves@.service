@@ -3,15 +3,9 @@ Description=Music Player Daemon %i
 Documentation=man:mpd(1) man:mpd.conf(5)
 After=network.target sound.target
 
-
-
-[Unit]
-Description=Music Player Daemon
-Documentation=man:mpd(1) man:mpd.conf(5)
-After=network.target sound.target
 [Service]
 Type=notify
-ExecStart=/home/bidar/.local/bin/mpd-slave-spawn --instance-name %i
+ExecStart=/usr/local/bin/mpd-slave-spawn --instance-name %i
 
 
 # allow MPD to use real-time priority 50
